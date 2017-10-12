@@ -1,0 +1,14 @@
+============================================
+Create new branch, check out files and
+push change to the new created branch
+============================================
+
+1) Locate for a directory to place the incoming files.
+2) Right click and click GIT BASH HERE.
+3) Type in the command line.
+	- git checkout -b <name of the new branch (e.g johnlarrylimbo_updates)>
+4) Type git status to check list of the files that has any changes.
+5) git add . to add all the files or 
+   git add test.txt to select only a specific file.
+6) git commit -m "your message"
+7) git push --set-upstream origin <name of the new branch>
