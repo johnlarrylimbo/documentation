@@ -75,3 +75,5 @@ BEGIN
 	LEFT JOIN section t ON t.section_id = sys.section_id
 	WHERE sc.class_id = @class_id
 END
+
+a
