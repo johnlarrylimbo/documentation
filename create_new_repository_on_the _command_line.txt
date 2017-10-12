@@ -1,0 +1,11 @@
+=============================================
+Create a New Repository on the Command Line
+=============================================
+
+1) echo "# <folder name>" >> README.md
+2) git init
+3) git add README.md
+4) git commit -m "you message here"
+5) git remote add origin <URL here>
+6) git push -u origin master
+7) you are good to go. =)
