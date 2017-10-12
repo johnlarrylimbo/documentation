@@ -1,0 +1,122 @@
+ALTER PROCEDURE [dbo].[pr_grade_submission_monitoring]
+@educational_level_id	int,
+@school_year_id	int,
+@section_id	int,
+@grading_period varchar(20)
+AS
+
+DECLARE @tmp table(school_year_section_id int, student_count int, class_id int)
+
+IF(@grading_period = '1') --first grading period
+BEGIN
+
+	INSERT INTO @tmp
+	SELECT
+		sys.school_year_section_id, COUNT(sc.student_id) As student_count, c.class_id  
+	FROM school_year_section sys
+	LEFT JOIN class c ON c.school_year_section_id = sys.school_year_section_id
+	LEFT JOIN student_class sc ON sc.class_id = c.class_id
+	WHERE sys.educational_level_id = @educational_level_id AND sys.school_year_id = @school_year_id AND
+		  sys.section_id = @section_id AND sc.first_grading = ''
+	GROUP BY sys.school_year_section_id, c.class_id
+	
+	SELECT
+		c.class_id, sys.school_year_section_id, s.title,
+		CASE	
+			WHEN t.student_count > 0 THEN 'Incomplete Grades'
+			ELSE 'Submitted'
+		END AS [submission_status]
+	FROM school_year_section sys
+	LEFT JOIN class c ON c.school_year_section_id = sys.school_year_section_id
+	LEFT JOIN subject s ON s.subject_id = c.subject_id
+	LEFT JOIN @tmp t ON t.class_id = c.class_id
+	--LEFT JOIN student_class sc ON sc.class_id = c.class_id
+	WHERE sys.educational_level_id = @educational_level_id AND sys.school_year_id = @school_year_id AND
+		  sys.section_id = @section_id
+	
+END
+ELSE IF(@grading_period = '2') --second grading period
+BEGIN
+
+	INSERT INTO @tmp
+	SELECT
+		sys.school_year_section_id, COUNT(sc.student_id) As student_count, c.class_id  
+	FROM school_year_section sys
+	LEFT JOIN class c ON c.school_year_section_id = sys.school_year_section_id
+	LEFT JOIN student_class sc ON sc.class_id = c.class_id
+	WHERE sys.educational_level_id = @educational_level_id AND sys.school_year_id = @school_year_id AND
+		  sys.section_id = @section_id AND sc.second_grading = ''
+	GROUP BY sys.school_year_section_id, c.class_id
+	
+	SELECT
+		c.class_id, sys.school_year_section_id, s.title,
+		CASE	
+			WHEN t.student_count > 0 THEN 'Incomplete Grades'
+			ELSE 'Submitted'
+		END AS [submission_status]
+	FROM school_year_section sys
+	LEFT JOIN class c ON c.school_year_section_id = sys.school_year_section_id
+	LEFT JOIN subject s ON s.subject_id = c.subject_id
+	LEFT JOIN @tmp t ON t.class_id = c.class_id
+	--LEFT JOIN student_class sc ON sc.class_id = c.class_id
+	WHERE sys.educational_level_id = @educational_level_id AND sys.school_year_id = @school_year_id AND
+		  sys.section_id = @section_id
+	
+END
+ELSE IF(@grading_period = '3') --third grading period
+BEGIN
+
+	INSERT INTO @tmp
+	SELECT
+		sys.school_year_section_id, COUNT(sc.student_id) As student_count, c.class_id  
+	FROM school_year_section sys
+	LEFT JOIN class c ON c.school_year_section_id = sys.school_year_section_id
+	LEFT JOIN student_class sc ON sc.class_id = c.class_id
+	WHERE sys.educational_level_id = @educational_level_id AND sys.school_year_id = @school_year_id AND
+		  sys.section_id = @section_id AND sc.third_grading = ''
+	GROUP BY sys.school_year_section_id, c.class_id
+	
+	SELECT
+		c.class_id, sys.school_year_section_id, s.title,
+		CASE	
+			WHEN t.student_count > 0 THEN 'Incomplete Grades'
+			ELSE 'Submitted'
+		END AS [submission_status]
+	FROM school_year_section sys
+	LEFT JOIN class c ON c.school_year_section_id = sys.school_year_section_id
+	LEFT JOIN subject s ON s.subject_id = c.subject_id
+	LEFT JOIN @tmp t ON t.class_id = c.class_id
+	--LEFT JOIN student_class sc ON sc.class_id = c.class_id
+	WHERE sys.educational_level_id = @educational_level_id AND sys.school_year_id = @school_year_id AND
+		  sys.section_id = @section_id
+	
+END
+ELSE IF(@grading_period = '4') --fourth grading period
+BEGIN
+
+	INSERT INTO @tmp
+	SELECT
+		sys.school_year_section_id, COUNT(sc.student_id) As student_count, c.class_id  
+	FROM school_year_section sys
+	LEFT JOIN class c ON c.school_year_section_id = sys.school_year_section_id
+	LEFT JOIN student_class sc ON sc.class_id = c.class_id
+	WHERE sys.educational_level_id = @educational_level_id AND sys.school_year_id = @school_year_id AND
+		  sys.section_id = @section_id AND sc.fourth_grading = ''
+	GROUP BY sys.school_year_section_id, c.class_id
+	
+	SELECT
+		c.class_id, sys.school_year_section_id, s.title,
+		CASE	
+			WHEN t.student_count > 0 THEN 'Incomplete Grades'
+			ELSE 'Submitted'
+		END AS [submission_status]
+	FROM school_year_section sys
+	LEFT JOIN class c ON c.school_year_section_id = sys.school_year_section_id
+	LEFT JOIN subject s ON s.subject_id = c.subject_id
+	LEFT JOIN @tmp t ON t.class_id = c.class_id
+	--LEFT JOIN student_class sc ON sc.class_id = c.class_id
+	WHERE sys.educational_level_id = @educational_level_id AND sys.school_year_id = @school_year_id AND
+		  sys.section_id = @section_id
+	
+END
+

@@ -1,0 +1,77 @@
+ALTER PROCEDURE pr_grade_submission_monitoring_by_class_id_sel
+@class_id	int,
+@grading_period_id	int
+AS
+	
+IF(@grading_period_id = '1') --first grading period
+BEGIN
+	SELECT 
+		sc.student_id, s.cLastName, s.cFirstName, s.cMiddleName, sc.first_grading,
+		u.title AS subject_title,
+		CASE 
+			WHEN sc.first_grading = '' THEN 'No Grade'
+			ELSE 'Complete'
+		END AS grade_remarks,
+		t.name AS section_name
+	FROM student_class sc
+	LEFT JOIN akito.dbo.tbl10StudProfile s ON s.nStudTransID = sc.student_id
+	LEFT JOIN class c ON c.class_id = sc.class_id
+	LEFT JOIN subject u ON u.subject_id = c.subject_id
+	LEFT JOIN school_year_section sys ON sys.school_year_section_id = c.school_year_section_id
+	LEFT JOIN section t ON t.section_id = sys.section_id
+	WHERE sc.class_id = @class_id
+END
+ELSE IF (@grading_period_id = '2')
+BEGIN
+	SELECT 
+		sc.student_id, s.cLastName, s.cFirstName, s.cMiddleName, sc.second_grading,
+		u.title AS subject_title,
+		CASE 
+			WHEN sc.second_grading = '' THEN 'No Grade'
+			ELSE 'Complete'
+		END AS grade_remarks,
+		t.name AS section_name
+	FROM student_class sc
+	LEFT JOIN akito.dbo.tbl10StudProfile s ON s.nStudTransID = sc.student_id
+	LEFT JOIN class c ON c.class_id = sc.class_id
+	LEFT JOIN subject u ON u.subject_id = c.subject_id
+	LEFT JOIN school_year_section sys ON sys.school_year_section_id = c.school_year_section_id
+	LEFT JOIN section t ON t.section_id = sys.section_id
+	WHERE sc.class_id = @class_id
+END
+ELSE IF (@grading_period_id = '3')
+BEGIN
+	SELECT 
+		sc.student_id, s.cLastName, s.cFirstName, s.cMiddleName, sc.third_grading,
+		u.title AS subject_title,
+		CASE 
+			WHEN sc.third_grading = '' THEN 'No Grade'
+			ELSE 'Complete'
+		END AS grade_remarks,
+		t.name AS section_name
+	FROM student_class sc
+	LEFT JOIN akito.dbo.tbl10StudProfile s ON s.nStudTransID = sc.student_id
+	LEFT JOIN class c ON c.class_id = sc.class_id
+	LEFT JOIN subject u ON u.subject_id = c.subject_id
+	LEFT JOIN school_year_section sys ON sys.school_year_section_id = c.school_year_section_id
+	LEFT JOIN section t ON t.section_id = sys.section_id
+	WHERE sc.class_id = @class_id
+END
+ELSE IF (@grading_period_id = '4')
+BEGIN
+	SELECT 
+		sc.student_id, s.cLastName, s.cFirstName, s.cMiddleName, sc.fourth_grading,
+		u.title AS subject_title,
+		CASE 
+			WHEN sc.fourth_grading = '' THEN 'No Grade'
+			ELSE 'Complete'
+		END AS grade_remarks,
+		t.name AS section_name
+	FROM student_class sc
+	LEFT JOIN akito.dbo.tbl10StudProfile s ON s.nStudTransID = sc.student_id
+	LEFT JOIN class c ON c.class_id = sc.class_id
+	LEFT JOIN subject u ON u.subject_id = c.subject_id
+	LEFT JOIN school_year_section sys ON sys.school_year_section_id = c.school_year_section_id
+	LEFT JOIN section t ON t.section_id = sys.section_id
+	WHERE sc.class_id = @class_id
+END
